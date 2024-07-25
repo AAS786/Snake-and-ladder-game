@@ -139,6 +139,6 @@ plot_board()
 # Check for winner
 winner = st.session_state.game.check_winner()
 if winner:
-    st.write(f"**Player {winner} wins!**")
+    st.markdown(f"**Player {winner} wins!**")
 else:
     st.write(f"Player {st.session_state.game.get_current_player()}'s turn")
