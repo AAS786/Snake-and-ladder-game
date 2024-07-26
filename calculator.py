@@ -7,7 +7,7 @@ class SnakeAndLadder:
     def __init__(self, num_players, player_colors):
         self.board = {i: i for i in range(1, 101)}
         self.ladders = {2: 23, 8: 34, 20: 77, 32: 68, 41: 79, 74: 88}
-        self.snakes = {25: 4, 39: 3, 47: 13, 56: 37, 85: 56, 99: 7}
+        self.snakes = {25: 4, 39: 3, 47: 13, 56: 37, 85: 56, 99: 27}
         self.players = {i: 0 for i in range(1, num_players + 1)}  # All players start outside the board
         self.player_colors = player_colors
         self.current_player = 1
@@ -72,9 +72,9 @@ def plot_board():
                 num = 1 + (row * 10) + (9 - col)
                 
             if (row % 2 == 0 and col % 2 == 0) or (row % 2 == 1 and col % 2 == 1):
-                color = (255, 255, 255)  # White
+                color = (255, 192, 203)  # Light Pink
             else:
-                color = (200, 200, 200)  # Light Gray
+                color = (210, 180, 140)  # Light Brown
             board_img[row, col, :] = color
 
             # Highlight ladders and snakes
@@ -85,7 +85,7 @@ def plot_board():
                 ax.text(col + 0.5, 9 - row + 0.5, f"S{num}->{st.session_state.game.snakes[num]}", 
                         ha='center', va='center', color='red', fontsize=8)
             else:
-                ax.text(col + 0.5, 9 - row + 0.5, num, ha='center', va='center', fontsize=10)
+                ax.text(col + 0.5, 9 - row + 0.5, f"{num}", ha='center', va='center', fontsize=10, fontweight='bold')
 
     ax.imshow(board_img, extent=[0, 10, 0, 10], origin='lower')
     ax.set_xticks([])
@@ -106,7 +106,7 @@ def plot_board():
     st.pyplot(fig)
 
 # Game controls
-st.title("Snake and Ladder Game")
+st.title("**Snake and Ladder Game**")
 
 # Sidebar for player settings
 st.sidebar.title("Game Settings")
@@ -123,15 +123,13 @@ for i in range(st.session_state.num_players):
 if st.sidebar.button("Start New Game"):
     st.session_state.game = SnakeAndLadder(st.session_state.num_players, st.session_state.player_colors)
 
-# Display the current player's turn
-current_player = st.session_state.game.get_current_player()
-st.markdown(f"### Player {current_player}'s turn ({st.session_state.player_colors[current_player-1].capitalize()})")
-
-if st.button("Roll Dice"):
+# Display the current player's turn and roll dice
+if st.button("**Roll Dice**"):
     roll_dice()
+    st.write(f"**Player {st.session_state.game.get_current_player()}'s turn**")
 
 # Display dice roll
-st.write(f"Dice Roll: {st.session_state.steps}")
+st.write(f"**Dice Roll: {st.session_state.steps}**")
 
 # Plot the board
 plot_board()
@@ -139,6 +137,4 @@ plot_board()
 # Check for winner
 winner = st.session_state.game.check_winner()
 if winner:
-    st.markdown(f"**Player {winner} wins!**")
-else:
-    st.write(f"Player {st.session_state.game.get_current_player()}'s turn")
+    st.write(f"**Player {winner} wins!**")
